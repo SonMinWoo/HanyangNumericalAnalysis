@@ -1,0 +1,39 @@
+implicit none
+   integer i, j, k, N, l
+   real tmp_mtx, res
+   real, dimension(:,:), allocatable :: A
+
+   res=1
+      
+   print *, 'Input the size N='
+   read(*,*) N
+   allocate(A(N,N))
+   
+   do i=1, N
+      do j=1, N
+         print *, "Input A(", i, ",", j, ") ="
+         read(*,*) A(i,j)
+      enddo
+   enddo
+   
+   if ( N .gt. 1) then
+      do i=1, N-1
+         do j=1, i
+            do k=j+1, N
+               tmp_mtx = A(i+1,j)/A(j,j)
+               A(i+1,k)=A(i+1,k)-A(j,k)*tmp_mtx
+            enddo
+            A(i+1,j)=0
+         enddo
+      enddo
+      do l=1, N
+         res = A(l,l)*res
+      enddo
+   endif
+   
+   
+   print *, 'Determinant of A is =',res   
+   read(*,*)
+   
+   stop
+   end
